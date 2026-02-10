@@ -43,6 +43,7 @@ st.markdown("""
     border-left: 6px solid #2563eb;
     margin-top: 1rem;
     white-space: pre-wrap;
+    color: #111827;
 }
 </style>
 """, unsafe_allow_html=True)
