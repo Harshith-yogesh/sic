@@ -1,43 +1,115 @@
-# PDF Summarizer and Chatbot using LLaMa2 in Streamlit
-![Screenshot (481)](https://github.com/user-attachments/assets/f5c8a6d0-e9db-4113-a6d2-a44e478b0845)
+# BBC News Summarizer & Classifier
 
-## Project Overview
-The PDF Summarizer Chatbot is a user-friendly application that allows you to upload PDF documents and receive concise summaries generated using advanced Large Language Models (LLMs). This project leverages the power of Natural Language Processing (NLP) to extract meaningful insights from textual data, making document analysis faster and more efficient.
-
-## Project Purpose
-This project can be a starting point for beginners who want to learn about LLMs. I use **Replicate**, which provides **free** cloud API services with open-source models like **LLaMa2**. The open-source Python framework **Streamlit** is used to deploy the model into an interactive web app. Overall, this project was made as simple as possible to help your understanding of the implementation of the LLMs project.
+A real-time news summarization and classification application powered by deep learning. Fetches live news from BBC RSS feeds, generates structured summaries, and classifies articles into categories using a neural network.
 
 ## Features
-- **PDF Parsing**: Extract text from PDF files using PyPDF2.
-- **AI-Powered Summarization**: Summaries are generated using the Llama 2 model, renowned for its state-of-the-art performance in NLP tasks.
-- **Interactive User Interface**: Built with Streamlit, providing an intuitive platform for users to upload files and receive outputs.
-- **Themes**: Support light and dark themes for user convenience.
-- **API Integration**: Utilizes the Replicate API for seamless communication with the LLM backend.
 
-## Getting Started
-1. Clone the repository
+- **Live BBC News**: Fetches real-time news from BBC News RSS feeds
+- **AI Summarization**: Generates structured summaries with key points, health risks, and actionable insights
+- **Neural Network Classification**: LSTM-based deep learning classifier for news categorization
+- **Interactive UI**: Built with Streamlit for easy use
+
+## Supported Categories
+
+- Politics, Technology, Sports, Health, Business
+- Entertainment, Science, World, UK, Education
+
+## Installation
+
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   cd sic
    ```
-   git clone https://github.com/0xichikawa/PDF-summarizer-chatbot-using-LLaMa2
-   cd PDF-summarizer-chatbot-using-LLaMa2 
-2.  Install dependencies
-   ```
+
+2. Install dependencies:
+   ```bash
    pip install -r requirements.txt
    ```
-3. Set Up Replicate API Key
-   Obtain your Replicate API key from [replicate.com](replicate.com) and add it to `secrets.toml` file in the `.streamlit` folder:
-   ```
-   REPLICATE_API_TOKEN = "INSERT_YOUR_REPLICATE_API_TOKEN_HERE"
-4. Run the application
-   ```
-   streamlit run app.py  
 
-## Future Enhancements
-- Multi-language support for summarization.
-- Enhanced text extraction with OCR for scanned PDFs.
-- Options for customized summary lengths and formats.
+3. Run the application:
+   ```bash
+   streamlit run app.py
+   ```
 
-## Acknowledgments
-- Meta AI for Llama 2.
-- Replicate for their API services.
-- Streamlit and PyPDF2 for simplifying the development process.
-- Data Professor (https://github.com/dataprofessor) for tutorials and project inspiration
+## Training the Neural Network
+
+### Option 1: Via Web Interface
+1. Run the app with `streamlit run app.py`
+2. Go to the "Train Model" tab
+3. Upload a CSV dataset or use 20 Newsgroups
+4. Configure epochs, batch size, learning rate
+5. Click "Start Training"
+
+### Option 2: Via Command Line
+```bash
+# Train with 20 Newsgroups dataset (auto-downloads)
+python classifier/train_classifier.py --dataset 20news
+
+# Train with BBC News CSV
+python classifier/train_classifier.py --dataset bbc
+
+# Train with more epochs
+python classifier/train_classifier.py --epochs 15
+
+# Train with custom CSV
+python classifier/train_classifier.py --csv data/mydata.csv --text-col content --cat-col label
+```
+
+### Available Options
+```
+--dataset, -d     Dataset: 20news, bbc, ag (default: 20news)
+--csv             Path to custom CSV file
+--epochs          Number of training epochs (default: 10)
+--batch-size      Batch size (default: 32)
+--learning-rate   Learning rate (default: 0.001)
+--output, -o      Output path (default: models/neural_classifier.pt)
+```
+
+## Using the Classifier Programmatically
+
+```python
+from classifier.neural_classifier import NeuralNewsClassifier
+
+# Load a pre-trained model
+classifier = NeuralNewsClassifier()
+classifier.load_model('models/neural_classifier.pt')
+
+# Predict category
+category = classifier.predict("Your article text here...")
+
+# Get prediction with confidence
+category, confidence = classifier.predict_with_confidence("Article text...")
+
+# Get all category probabilities
+probs = classifier.predict_proba("Article text...")
+```
+
+## Project Structure
+
+```
+sic/
+├── app.py                      # Main Streamlit application
+├── requirements.txt            # Python dependencies
+├── classifier/
+│   ├── __init__.py
+│   ├── neural_classifier.py    # Neural Network classifier (PyTorch LSTM)
+│   └── train_classifier.py     # Command-line training script
+├── data/                       # Training datasets (CSV files)
+├── realtime/
+│   └── realtime_summarizer.py  # Text summarization
+└── models/                     # Saved trained models
+```
+
+## Technologies
+
+- **Streamlit**: Web interface
+- **PyTorch**: Deep Learning (LSTM Neural Network)
+- **scikit-learn**: Data splitting and metrics
+- **feedparser**: RSS feed parsing
+- **BeautifulSoup**: Web scraping
+- **requests**: HTTP requests
+
+## License
+
+MIT License

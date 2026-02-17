@@ -1,0 +1,4 @@
+# This directory stores trained classifier models
+# Generated files:
+# - news_classifier.pkl - The trained classifier model
+# - training_data.pkl - Cached training data

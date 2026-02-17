@@ -1,0 +1,18 @@
+# Place your training datasets here
+#
+# Recommended datasets:
+#
+# 1. BBC News Dataset (RECOMMENDED)
+#    - Download from: https://www.kaggle.com/c/learn-ai-bbc/data
+#    - Files: bbc-text.csv
+#    - Categories: business, entertainment, politics, sport, tech
+#
+# 2. AG News Dataset
+#    - Download from: https://www.kaggle.com/datasets/amananandrai/ag-news-classification-dataset
+#    - Files: train.csv, test.csv
+#    - Categories: World, Sports, Business, Sci/Tech
+#
+# After downloading, place CSV files in this folder:
+#   sic/data/bbc-text.csv
+#   OR
+#   sic/data/ag_news_train.csv
